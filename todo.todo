@@ -1,0 +1,6 @@
+TODOS:
+    Map:
+        1. Procedural Generation:
+            ☐ isometric map with tiles sprites
+            ☐ map random generation
+            ☐ handle zoom in/out
