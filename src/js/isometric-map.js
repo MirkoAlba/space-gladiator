@@ -66,8 +66,6 @@ export default class IsometricMap {
 
     this.tileSheetImg = await this.loadImage(tileSheetURI);
 
-    this.buildMap();
-
     this.canvas.onmouseclick = (e) => {
       e.stopPropagation();
       e.preventDefault();
@@ -90,9 +88,13 @@ export default class IsometricMap {
       this.onMouseMove(e);
     };
 
+    this.buildMap();
+
     this.updateMapOffset(this.viewportWidth / 2, this.viewportHeight / 4);
 
-    this.mainLoop();
+    this.onResize();
+
+    this.renderMap();
   }
 
   clearViewport(color) {
@@ -119,11 +121,6 @@ export default class IsometricMap {
       img.onerror = reject;
       img.src = uri;
     });
-  }
-
-  // min and max included
-  randomInt(min, max) {
-    return Math.floor(Math.random() * ((max - min) / 2)) * 2 + min;
   }
 
   /**
@@ -272,13 +269,13 @@ export default class IsometricMap {
     });
   }
 
-  mainLoop() {
+  renderMap() {
     this.clearViewport("#1A1B1F");
     this.draw();
 
-    window.requestAnimationFrame(() => {
-      this.mainLoop();
-    });
+    // window.requestAnimationFrame(() => {
+    //   this.renderMap();
+    // });
   }
 
   limit(value, min, max) {

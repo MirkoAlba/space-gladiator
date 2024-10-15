@@ -17,3 +17,7 @@
 6. **Variable enemies and bosses**:
    - Variety of enemies with unique behaviors.
    - Bosses with special mechanics and greater challenges.
+
+# Resources
+
+- [Microsoft Designer](https://designer.microsoft.com/image-creator)

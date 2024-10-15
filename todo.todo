@@ -1,6 +1,6 @@
 TODOS:
     Map:
         1. Procedural Generation:
-            ☐ isometric map with tiles sprites
-            ☐ map random generation
+            ☐ isometric map with custom tiles sprites
+            ✔ map random generation @done(24-10-15 14:56)
             ☐ handle zoom in/out

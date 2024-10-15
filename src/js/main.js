@@ -1,18 +1,11 @@
-import IsometricMap from "./isometric-map.js";
+import Game from "./game.js";
 
-function init() {
-  let isometricMap = new IsometricMap();
-
-  isometricMap.init(
-    "viewport",
-    "https://assets.codepen.io/6201207/codepen-iso-tilesheet.png"
-  );
-}
+const game = new Game();
 
 document.addEventListener(
   "DOMContentLoaded",
   () => {
-    init();
+    game.start();
   },
   false
 );
