@@ -18,6 +18,10 @@
    - Variety of enemies with unique behaviors.
    - Bosses with special mechanics and greater challenges.
 
+# Info
+
+- Text domain: spgr
+
 # Resources
 
 - [Microsoft Designer](https://designer.microsoft.com/image-creator)

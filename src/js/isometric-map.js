@@ -1,4 +1,4 @@
-export default class IsometricMap {
+class IsometricMap {
   constructor() {
     this.viewportWidth = window.innerWidth;
     this.viewportHeight = window.innerHeight;
@@ -6,10 +6,16 @@ export default class IsometricMap {
     this.canvas = null;
     this.context = null;
     this.tileSheetImg = null;
-    this.tileMap = null;
 
-    this.mapOffsetX = 0;
-    this.mapOffsetY = 0;
+    // Map data
+    this.tileMap = null;
+    this.rooms = null;
+    this.mapWidth = null;
+    this.mapHeight = null;
+
+    // Offset the map position
+    this.mapOffsetX = -200;
+    this.mapOffsetY = -3500;
 
     this.mouseDown = false;
     this.mouseScreenX = 0;
@@ -48,7 +54,10 @@ export default class IsometricMap {
       this.tileHeight - this.overlapWidth - this.overlapHeight;
   }
 
-  async init(canvasId, tileSheetURI) {
+  async init() {
+    const canvasId = "viewport",
+      tileSheetURI =
+        "https://assets.codepen.io/6201207/codepen-iso-tilesheet.png";
     this.canvas = document.getElementById(canvasId);
 
     if (this.canvas == null) {
@@ -130,6 +139,13 @@ export default class IsometricMap {
    * @returns {undefined}
    */
   buildMap(minRooms = 6) {
+    const currentMap = this.getCurrentMap();
+
+    if (currentMap) {
+      this.tileMap = currentMap.tileMap;
+      return;
+    }
+
     const mapWidth = Math.floor(Math.random() * 20) + minRooms * 20;
     const mapHeight = Math.floor(Math.random() * 20) + minRooms * 20;
     const map = Array(mapHeight)
@@ -255,9 +271,53 @@ export default class IsometricMap {
       return false;
     }
 
-    // return { map, width: mapWidth, height: mapHeight };
-
     this.tileMap = map;
+    this.rooms = rooms;
+    this.mapWidth = mapWidth;
+    this.mapHeight = mapHeight;
+
+    this.saveCurrentMap();
+  }
+
+  findRightmostRoom(rooms) {
+    if (!rooms || rooms.length === 0) {
+      console.error("No rooms provided to findRightmostRoom");
+      return null;
+    }
+
+    return rooms.reduce((rightmost, room) => {
+      const roomRightEdge = room.x + room.width;
+      const rightmostRightEdge = rightmost.x + rightmost.width;
+
+      return roomRightEdge > rightmostRightEdge ? room : rightmost;
+    });
+  }
+
+  /**
+   * Gets the current map data from local storage
+   * @returns {Object} Current map data { tileMap, width, height }
+   */
+  getCurrentMap() {
+    return JSON.parse(localStorage.getItem("spgr")).map;
+  }
+
+  /**
+   * Saves the current map to local storage
+   * @param {Object} map The map data to be saved
+   */
+  saveCurrentMap() {
+    const gameData = JSON.parse(localStorage.getItem("spgr")) || {};
+
+    gameData.map = {
+      tileMap: this.tileMap,
+      rooms: this.rooms,
+      width: this.mapWidth,
+      height: this.mapHeight,
+    };
+
+    const gameDataJson = JSON.stringify(gameData);
+
+    localStorage.setItem("spgr", gameDataJson);
   }
 
   onResize() {
@@ -272,10 +332,6 @@ export default class IsometricMap {
   renderMap() {
     this.clearViewport("#1A1B1F");
     this.draw();
-
-    // window.requestAnimationFrame(() => {
-    //   this.renderMap();
-    // });
   }
 
   limit(value, min, max) {
@@ -454,3 +510,5 @@ export default class IsometricMap {
     if (this.mouseDown) this.updateMapOffset(mouseDeltaX, mouseDeltaY);
   }
 }
+
+export const isometricMapInstance = new IsometricMap();
