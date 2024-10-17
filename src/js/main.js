@@ -1,10 +1,10 @@
 import Game from "./game.js";
 
-const game = new Game();
-
 document.addEventListener(
   "DOMContentLoaded",
   () => {
+    const game = new Game();
+
     game.start();
   },
   false

@@ -4,13 +4,17 @@ import { playerInstance } from "./player.js";
 export default class Game {
   constructor() {
     // Control the FPS in all devices
-    this.fps = 30;
+    this.fps = 60;
     this.now = null;
     this.then = Date.now();
     this.interval = 1000 / this.fps;
     this.delta = null;
 
-    // Normalize requestAnimationFrame
+    this.normalizeRAF();
+  }
+
+  // Normalize requestAnimationFrame
+  normalizeRAF() {
     var requestAnimationFrame =
       window.requestAnimationFrame ||
       window.mozRequestAnimationFrame ||
@@ -33,11 +37,9 @@ export default class Game {
     window.cancelAnimationFrame = cancelAnimationFrame;
   }
 
-  async start() {
-    // Init the map
-    await isometricMapInstance.init();
-
-    // Main render loop
+  // Initialize the Game objects
+  start() {
+    console.log("first render");
     this.render();
   }
 
@@ -67,12 +69,7 @@ export default class Game {
       this.then = this.now - (this.delta % this.interval);
 
       // ---------- Rendering objects ----------
-
-      // Map
-      isometricMapInstance.renderMap();
-
-      // Player
-      playerInstance.renderPlayer();
+      console.log("rendering");
     }
   }
 }

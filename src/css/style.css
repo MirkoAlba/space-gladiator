@@ -71,6 +71,4 @@ main {
 canvas {
   touch-action: none;
   outline: none;
-  /* temporary */
-  background-color: #1a1b1f;
 }
