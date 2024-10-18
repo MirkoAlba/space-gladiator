@@ -1,5 +1,13 @@
-import { isometricMapInstance } from "./isometric-map.js";
-import { playerInstance } from "./player.js";
+// Engine
+import { assetsManager } from "./engine/assets-manager.js";
+import { canvasManager } from "./engine/canvas-manager.js";
+
+// Objects
+import { isometricMap } from "./objects/isometric-map.js";
+import { player } from "./objects/player.js";
+
+// Utils
+import { normalizeRAF } from "./utils/index.js";
 
 export default class Game {
   constructor() {
@@ -10,44 +18,23 @@ export default class Game {
     this.interval = 1000 / this.fps;
     this.delta = null;
 
-    this.normalizeRAF();
-  }
-
-  // Normalize requestAnimationFrame
-  normalizeRAF() {
-    var requestAnimationFrame =
-      window.requestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.msRequestAnimationFrame ||
-      function (callback) {
-        return setTimeout(callback, 1000 / this.fps);
-      };
-
-    var cancelAnimationFrame =
-      window.cancelAnimationFrame ||
-      window.mozCancelAnimationFrame ||
-      window.webkitCancelAnimationFrame ||
-      window.msCancelAnimationFrame ||
-      function (timer) {
-        return clearTimeout(timer);
-      };
-
-    window.requestAnimationFrame = requestAnimationFrame;
-    window.cancelAnimationFrame = cancelAnimationFrame;
+    // Normalize requestAnimationFrame
+    normalizeRAF();
   }
 
   // Initialize the Game objects
-  start() {
-    console.log("first render");
-    this.render();
+  async start() {
+    // Load assets
+    try {
+      await assetsManager.loadAssets();
+
+      this.render();
+    } catch (errorMessage) {
+      console.error(errorMessage);
+    }
   }
 
   render() {
-    window.requestAnimationFrame(() => {
-      this.render();
-    });
-
     this.now = Date.now();
     this.delta = this.now - this.then;
 
@@ -71,5 +58,9 @@ export default class Game {
       // ---------- Rendering objects ----------
       console.log("rendering");
     }
+
+    window.requestAnimationFrame(() => {
+      this.render();
+    });
   }
 }
