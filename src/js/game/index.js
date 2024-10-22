@@ -3,8 +3,8 @@ import { assetsManager } from "./engine/assets-manager.js";
 import { canvasManager } from "./engine/canvas-manager.js";
 
 // Objects
-import { isometricMap } from "./objects/isometric-map.js";
-import { player } from "./objects/player.js";
+import IsometricMap from "./objects/isometric-map.js";
+import Player from "./objects/player.js";
 
 // Utils
 import { normalizeRAF } from "./utils/index.js";
@@ -18,6 +18,10 @@ export default class Game {
     this.interval = 1000 / this.fps;
     this.delta = null;
 
+    // Objects
+    this.isometricMap = null;
+    this.player = null;
+
     // Normalize requestAnimationFrame
     normalizeRAF();
   }
@@ -26,15 +30,28 @@ export default class Game {
   async start() {
     // Load assets
     try {
-      await assetsManager.loadAssets();
+      canvasManager.showLoadingScreen();
 
-      this.render();
+      const assetsLoaded = await assetsManager.loadAssets();
+
+      if (assetsLoaded) {
+        canvasManager.hideLoadingScreen();
+
+        this.isometricMap = new IsometricMap();
+        // this.player = new Player();
+
+        this.render();
+      }
     } catch (errorMessage) {
       console.error(errorMessage);
     }
   }
 
   render() {
+    window.requestAnimationFrame(() => {
+      this.render();
+    });
+
     this.now = Date.now();
     this.delta = this.now - this.then;
 
@@ -56,11 +73,7 @@ export default class Game {
       this.then = this.now - (this.delta % this.interval);
 
       // ---------- Rendering objects ----------
-      console.log("rendering");
+      this.isometricMap.render();
     }
-
-    window.requestAnimationFrame(() => {
-      this.render();
-    });
   }
 }

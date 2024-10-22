@@ -1,7 +1,6 @@
-import { isometricMap } from "./isometric-map.js";
+// Engine
+import { canvasManager } from "../engine/canvas-manager";
 
-class Player {
+export default class Player {
   constructor() {}
 }
-
-export const player = new Player();
