@@ -1,7 +1,7 @@
 class AssetsManager {
   constructor() {
-    this.assets = ["assets/map/earth.png", "assets/map/wall.png"];
-    this.errorMessage = "Assets failed to load:";
+    this.assets = ["assets/map/wall.png", "assets/map/earth.png"];
+    this.errorMessage = "Asset failed to load:";
 
     this.assetsLoaded = [];
   }

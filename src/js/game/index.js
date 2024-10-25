@@ -11,12 +11,13 @@ import { normalizeRAF } from "./utils/index.js";
 
 export default class Game {
   constructor() {
-    // Control the FPS in all devices
-    this.fps = 60;
+    // Game settings
+    this.fps = 60; // Control the FPS in all devices
     this.now = null;
     this.then = Date.now();
     this.interval = 1000 / this.fps;
     this.delta = null;
+    this.isRunning = false;
 
     // Objects
     this.isometricMap = null;
@@ -40,6 +41,8 @@ export default class Game {
         this.isometricMap = new IsometricMap();
         // this.player = new Player();
 
+        this.isRunning = true;
+
         this.render();
       }
     } catch (errorMessage) {
@@ -47,10 +50,12 @@ export default class Game {
     }
   }
 
+  stop() {
+    this.isRunning = false;
+  }
+
   render() {
-    window.requestAnimationFrame(() => {
-      this.render();
-    });
+    if (!this.isRunning) return;
 
     this.now = Date.now();
     this.delta = this.now - this.then;
@@ -75,5 +80,9 @@ export default class Game {
       // ---------- Rendering objects ----------
       this.isometricMap.render();
     }
+
+    window.requestAnimationFrame(() => {
+      this.render();
+    });
   }
 }

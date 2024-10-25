@@ -25,3 +25,4 @@
 # Resources
 
 - [Microsoft Designer](https://designer.microsoft.com/image-creator)
+- [Cellular Automata](https://excaliburjs.com/blog/Cellular%20Automata/)
