@@ -52,7 +52,7 @@ export default class IsometricMap {
   }
 
   render() {
-    // clear the canvas on every render
+    // Clear the canvas on every render
     canvasManager.setBackground();
 
     this.drawMap();
@@ -87,10 +87,13 @@ export default class IsometricMap {
       this.onMouseMove(e);
     };
 
-    this.updateMapOffset(
-      canvasManager.viewportWidth / 2,
-      canvasManager.viewportHeight / 4
-    );
+    // const xPixelsOffset = canvasManager.viewportWidth / 2,
+    //   yPixelsOffset = -canvasManager.viewportHeight / 2;
+
+    const xPixelsOffset = 0,
+      yPixelsOffset = 0;
+
+    this.updateMapOffset(xPixelsOffset, yPixelsOffset);
   }
 
   onResize() {
@@ -152,7 +155,7 @@ export default class IsometricMap {
     //   canvasManager.viewportHeight / this.projectedTileHeight
     // );
 
-    const maxVisibleTiles = 100;
+    const maxVisibleTiles = this.tileMap.length;
     const halfVisibleTiles = Math.ceil(maxVisibleTiles / 2);
 
     this.renderStartX = 0;

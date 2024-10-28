@@ -39,7 +39,7 @@ export default class Game {
         canvasManager.hideLoadingScreen();
 
         this.isometricMap = new IsometricMap();
-        // this.player = new Player();
+        this.player = new Player();
 
         this.isRunning = true;
 
@@ -79,6 +79,7 @@ export default class Game {
 
       // ---------- Rendering objects ----------
       this.isometricMap.render();
+      this.player.render();
     }
 
     window.requestAnimationFrame(() => {

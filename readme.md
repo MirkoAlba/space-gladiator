@@ -26,3 +26,4 @@
 
 - [Microsoft Designer](https://designer.microsoft.com/image-creator)
 - [Cellular Automata](https://excaliburjs.com/blog/Cellular%20Automata/)
+- [https://www.youtube.com/watch?v=04oQ2jOUjkU](https://www.youtube.com/watch?v=04oQ2jOUjkU)
